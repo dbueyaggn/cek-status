@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Cek Status Pengumpulan</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--aqua:#5bc2c7;--aqua-deep:#0d6972;--aqua-pale:#dff5f3;--cream:#f7f0e0;--navy:#1f2389;--pink:#ff0066;--ink:#172b35;--muted:#66767d;--line:#d7dedc;--serif:Georgia,'Times New Roman',serif}
+*{box-sizing:border-box}html,body{margin:0}
+body{min-height:100vh;background:var(--cream);color:var(--ink);font:14px/1.6 'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid rgba(91,194,199,.8);outline-offset:2px}
+[hidden]{display:none!important}
+.hd{background:#fff;border-bottom:1px solid var(--line)}
+.hd div{max-width:720px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:11px}
+.hd img{width:44px;height:44px;object-fit:contain}
+.hd b{display:block;font:700 18px/1 var(--serif);color:var(--navy)}.hd small{display:block;margin-top:5px;font-size:10px;font-weight:700;letter-spacing:.24em;color:var(--aqua-deep)}
+main{max-width:720px;margin:0 auto;padding:28px 20px 60px}
+.eb{margin:0 0 6px;font-size:11px;font-weight:600;color:var(--aqua-deep)}
+h1{margin:0;font:700 clamp(26px,6vw,36px)/1.12 var(--serif);color:var(--navy);letter-spacing:-.03em}
+.sub{margin:10px 0 20px;color:var(--muted)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 34px rgba(23,43,53,.09);padding:20px}
+label{display:block;font-size:12px;font-weight:600;color:var(--aqua-deep);margin-bottom:6px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type=email]{flex:1;min-width:220px;height:46px;border:1px solid var(--line);border-radius:12px;padding:0 14px;background:#f7f8f6;font-size:15px}
+.btn{height:46px;padding:0 22px;border:0;border-radius:12px;background:var(--navy);color:#fff;font-weight:600;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:wait}
+.hint{margin:10px 0 0;font-size:12px;color:var(--muted)}
+#hasil{margin-top:18px;display:grid;gap:14px}
+.ban{border-radius:14px;padding:14px 16px;border:1px solid}
+.ban b{display:block;font:700 18px/1.3 var(--serif)}
+.ban.lengkap{background:#e1f3dc;border-color:#a9d79c;color:#245a38}
+.ban.kurang{background:#fff2cc;border-color:#ecd48a;color:#6e5010}
+.ban.belum{background:#ffe0ec;border-color:#f5b3cc;color:#8c0040}
+.ban.info{background:var(--aqua-pale);border-color:#b6e3e0;color:var(--aqua-deep)}
+.tim{font-size:12.5px;color:var(--muted);margin:2px 0 10px}.tim b{color:var(--ink)}
+ul.cl{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+ul.cl li{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
+ul.cl .i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;flex:none}
+.ok .i{background:#3c9a5f}.no .i{background:var(--pink)}
+ul.cl .s{margin-left:auto;font-size:12px;font-weight:600}.ok .s{color:#2f7a4c}.no .s{color:#b0004a}
+.bantu{font-size:13px;line-height:1.7}
+.bantu ol{margin:6px 0 0;padding-left:20px}
+.ft{font-size:11.5px;color:var(--muted)}
+.card+.card{margin-top:14px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="hd"><div><img alt="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA4MCIgaGVpZ2h0PSIxMDYxIiB2aWV3Qm94PSIwIDAgMTA4MCAxMDYxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoKPHBhdGggZD0iTTMzNy42IDM4LjY0MDFDMzU5LjIzIDM2LjEyNjEgNDA5LjU4IDQ2LjQzMjIgNDI4LjcwMSA1NS40NDE2QzQwNy41MDYgNTMuODkzOCAzODUuOTUyIDUxLjEzNjEgMzY0Ljc3NCA1MC43OTkzQzM0Ny4zNiA1MC42ODA3IDMzMC41NzIgNTQuMDAyNiAzMTMuNjk1IDU3LjYxNzFDMjQ2LjY3MiA3MS45NzMzIDE5NS4yMDUgMTI5LjE3NyAyMTIuMTggMjAwLjUzNkMyMjUuMTg5IDI1NS4yMjMgMjY2LjQwNCAyNzkuNTg5IDMxNC4wOTcgMzAwLjg2OUMzMzEuNDU1IDMwOC42MTMgMzUxLjcyMiAzMTYuOTMxIDM2Ny44MzkgMzI2LjgxN0MzNzkuMzQ2IDMzNC4wMzQgMzkwLjAzMSAzNDIuNDg0IDM5OS43MDUgMzUyLjAxOEM0MzEuNjk3IDM4My4zNzkgNDM4LjAwMiA0MTQuNjY4IDQ0NC40NzcgNDU3LjA1MUM0NTEuMTMgNTAwLjU5NiA0NTguMjQgNTUyLjM4OCA0OTMuNTY2IDU4Mi45MDJDNDk4Ljk2MyA1ODcuNTY3IDUwNC43NTYgNTkxLjA3NSA1MTAuNzg2IDU5NC43NjhDNDU5LjU5OCA1OTMuNTk5IDQxOS4yMDIgNTQ2LjY5MyAzOTQuMTk2IDUwNi40NjVDMzczLjk4MiA0NzMuOTUgMzUxLjA0NyA0NDUuNjgxIDMxOC4zMDIgNDI0Ljk5OUMyOTUuMzE1IDQxMC4yNDQgMjY5LjQ3OSA0MDAuNDkyIDI0Mi40NzQgMzk2LjM3OUMxOTAuOTQ5IDM4OC40ODkgMTI2LjU3OCA0MDMuNDAxIDg0LjQ4NTIgNDMzLjg0MUM0Mi4yMTA3IDQ2NC40MTEgMTUuODU2OSA1MTguNDQyIDcuMTc2NDYgNTY4LjcxQzUuODc1NDUgNTc2LjI0MiA1LjEzODE3IDU4My43OTIgMy45ODk0NSA1OTEuMzU0QzAuOTM2NzI4IDU2Ni4xNjIgLTEuMTQ0OTIgNTQ1LjcwNCAwLjY4Njg3NCA1MTkuOTc3QzQuNzU1NCA0NjIuODI4IDI3LjE5NzMgNDEzLjMxNyA3MS40MTk4IDM3Ni4zNUM3OC41NjE2IDM3MC4zODggODUuOTkyNSAzNjQuNzgxIDkzLjY4NTcgMzU5LjU1MUM5OS44MzQ1IDM1NS4zMiAxMDguMDc0IDM1MC4wNDMgMTEzLjU1IDM0NS4xNjhMMTE0LjMwNSAzNDQuNDkxQzEwMC41ODMgMzM0LjgwMSA4OS4wMTU3IDMzMS44MTggODIuMDk2NyAzMTMuMzgxQzc3Ljg3NTEgMzAxLjg4NyA3OC4zNDI4IDI4OS4xOTQgODMuMzk5MSAyNzguMDQzQzg4LjA1IDI2Ny45MjQgOTcuNjcxMSAyNTcuNDY4IDEwOC4zNjUgMjUzLjkzOUMxMjcuMzAyIDI0Ny42OTEgMTQzLjgyOSAyNTUuOTc3IDE2MC4zMDkgMjYzLjgyOEMxNTkuNzAzIDI1NC40NzEgMTU4LjY4NSAyNDUuMTQ1IDE1Ny4yNTkgMjM1Ljg3N0MxNTUuOSAyMjcuNTE5IDE1My4zMzkgMjE1LjA0MiAxNTIuODkxIDIwNi44OTFDMTUwLjk4NyAxNzIuMjg3IDE3Mi4zOTggMTI2LjA4NCAxOTUuMjc4IDEwMC42NzRDMjM0LjI5MiA1Ny4zNDQ5IDI4MS4zODYgNDIuMTk2NCAzMzcuNiAzOC42NDAxWiIgZmlsbD0iI0ZCQjIyRiIvPgo8cGF0aCBkPSJNNTUyLjA2MyA1MjUuNDYyQzU1NS4yNTQgNTI2Ljc5NCA1NjYuOTUgNTM1Ljg3NCA1NjkuMzMxIDUzOC41MzJDNTg0LjY1OSA1NTUuNjYyIDU5MS41MTggNTgwLjIzMiA1OTAuOTA3IDYwMi44MjRDNTkwLjg2NiA2MTkuNjM0IDU4Ni41MjcgNjM1LjgzOSA1ODIuMzkxIDY1MS44MzVDNTU1Ljc5NSA3NTQuNzM5IDQ2MC44NTUgODExLjU2MiAzNjEuNTc3IDgyOC43OTFDMzQzLjc4IDgzMS44NzkgMzI2LjA5MyA4MzUuOTI4IDMwNy41OTggODM2LjYwOEMyODkuOTQ4IDgzNy4yNTQgMjcyLjM4NCA4MzYuMzEyIDI1NC43NDYgODM0Ljk1N0MyNDMuNTI1IDgzNC4yOTMgMjMxLjEyMSA4MzQuMjM1IDIxOS44MDEgODM0LjAwM0MyMTkuNzM1IDg0My4wOTQgMjE4LjI2MSA4NTEuNjIxIDIxNS4xMyA4NjAuMTY2QzE5NS43MzcgOTEzLjExNSAxMTcuMTg3IDg4NC44ODEgMTI4LjQzOCA4MzIuODU3QzEyOS45ODYgODI1LjY5NiAxMzUuNDYgODE2LjMwMiAxMzguMzc3IDgwOS4wNjFDMTI3LjY5IDc5OS45MjMgMTE0LjM4OCA3OTMuODQ0IDEwNC43NjggNzg1Ljg3NUM3Ni44OTE2IDc2Mi43NzEgNDIuNjgzMyA3MjIuNjAxIDI5LjA5NzUgNjg4Ljc0OEMyMy4zOTEzIDY3Ny40NzUgMjAuNTE2MyA2NjMuMjY1IDE4LjcyNjQgNjUwLjg3NkMyOC4zNDA4IDY2NC42MjYgMzkuOTA2IDY3Ni44OTQgNTMuMDU3OSA2ODcuMzExQzExOC4yNTUgNzM4Ljk4NyAyMDEuODkgNzM1LjQyNyAyNzYuMTYzIDcwNy40MjZDMzAxLjUxNSA2OTcuODY5IDMxOS42MzMgNjg2Ljg1OCAzNDMuNzQ1IDY3NS4zN0MzNzEuNzU3IDY2Mi4wMjYgNDA1LjQ2MiA2NTMuNCA0MzUuODQgNjQ3LjM5N0M0NDIuODM0IDY0Ni4wMTkgNDUyLjcwNSA2NDMuOTEzIDQ1OS42ODYgNjQzLjEzOUw0NjAuNTE3IDY0My4wNTJDNDM5LjUxNyA2NTEuNzA3IDQwNS4zNzMgNjc2LjY5NiAzOTcuMzMgNjk3LjM1N0MzODAuMDcxIDc0MS43MDkgNDI5LjQ1MiA3MzUuMjI5IDQ1Mi4yNSA3MjQuOTk4QzUxNS43NDUgNjk2LjQ4NCA1NzEuODk4IDYzNC44MzMgNTYzLjQzNyA1NjEuMjY5QzU2Mi4wNjIgNTQ5LjMxIDU1Ni41MDggNTM2LjE0MSA1NTIuMDYzIDUyNS40NjJaIiBmaWxsPSIjN0EzODdBIi8+CjxwYXRoIGQ9Ik01OTMuMDcxIDUxNy40N0M1OTguNzM3IDUxOC42MjIgNjEwLjE2MiA1MjMuMzMzIDYxNS4zMSA1MjUuNjg5QzY3NS4yMzkgNTUzLjA5MiA2ODEuMzQxIDYyMS4zNTEgNjg1LjY0IDY3OC45M0M2ODguMTY1IDcxMi43MDggNjg2LjczNCA3NDAuNjEgNjk4LjY3MSA3NzMuMzk5QzcxMC4yMTIgODA2LjY1MyA3MzUuMjc4IDgzNi41NTEgNzY4LjAxNyA4NTEuMDA1Qzg1Ny4wOSA4OTAuMzMyIDk2OC41MzYgODQzLjgyNyAxMDE0LjQ5IDc2MC42MTRDMTAyMy4yOCA3NDQuNzA1IDEwMjkuNDcgNzI3LjM3NyAxMDM3LjA2IDcxMS4wMjdDMTAzNy43NiA3NTQuODM4IDEwMDguOTEgODE2LjQzMSA5NzguNzg2IDg0Ny41ODVDOTY1Ljg3MiA4NjAuOTQgOTU0LjI1NSA4NjkuNjI0IDkzOC45NzMgODc5Ljk3OEM5MDAuMDUxIDkwNi4zNDUgODU4LjgwMSA5MTguMzIyIDgxMi4xNDcgOTIxLjI4OEM4MDIuNzUyIDkyMS44ODIgNzkzLjczIDkyMS45MjggNzg0LjMwNiA5MjIuMjk1Qzc4NS42NTUgOTI2LjY0NSA3ODYuMTg1IDkyOC4wMDcgNzg4LjI3MyA5MzIuMDQzQzc5NC4xMDggOTQxLjExNyA3OTYuNzg0IDk0Ny4wMSA3OTYuODY1IDk1Ny44MjlDNzk3LjA1NyA5ODMuODg4IDc3Ni40MTggMTAwNC44NSA3NTAuMTgyIDEwMDQuMDhDNzM3LjQ4MyAxMDAzLjcyIDcyMy4zNDEgOTk4LjQyMyA3MTUuNzA5IDk4Ny43NDRDNzExLjI0MiA5ODEuNDg1IDcwOC43NjQgOTc2LjMzNyA3MDMuMjkgOTcwLjY4OUM2OTIuNjU2IDk4MS41NDkgNjg1LjIxNSA5OTMuMzk4IDY3NS4xNTIgMTAwNC4yNkM2NTIuMjYxIDEwMjguOTcgNjE4LjE4NCAxMDQ3LjA2IDU4NS42MzcgMTA1NC44QzU0Ny43NDUgMTA2My43OSA1MDguMTI0IDEwNjIuMyA0NzEuMDE0IDEwNTAuNDlDNDUyLjQ3MyAxMDQ0LjczIDQ0Ny41MzYgMTA0MS43NiA0MzEuMTI4IDEwMzEuNjZDNDQxLjk2NyAxMDM1LjE2IDQ1NC4yOTggMTAzNy45NSA0NjUuODU1IDEwMzguNTFDNTA4Ljg3MSAxMDQwLjU4IDU2My43ODkgMTAzMi43NyA1OTcuMjU0IDEwMDMuODNDNjE3LjIxOCA5ODYuNTUyIDYyNS43OTMgOTY0LjMwMyA2MjguOTUxIDkzOC45MDFDNjMyLjMwMiA5MTEuOTY0IDYyNS45MTUgODkzLjY1MyA2MTYuNjYgODY4LjkzMkM2MDcuMzg3IDg0NC4xNTkgNjAwLjE5NyA4MTguNDIgNjAwLjIyIDc5MS43MzNDNjAwLjIzOCA3NjUuMzM3IDYwNy42NjYgNzQwLjI5IDYxNC4yNTEgNzE0LjkxOEM2MjEuOTc3IDY4NC45NjggNjI5LjYxNSA2NTUgNjMxLjMxOSA2MjMuOTU2QzYzMi45MTMgNTk0LjkyNSA2MjguMTY2IDU2NC42NjEgNjExLjgwMiA1NDAuMDM5QzYwNi41MiA1MzIuMDg4IDU5OS40NTIgNTI0LjYzMSA1OTMuMDcxIDUxNy40N1oiIGZpbGw9IiMxNTk1NTEiLz4KPHBhdGggZD0iTTk5MS4zODEgNjU5LjYzNkM5OTIuOTU3IDY1OS41MjYgOTk1LjMxMyA2NTkuNjY1IDk5Ni43NzkgNjYwLjE3MUMxMDE5LjMxIDY2OC4wMDYgMTAxMy44NSA2OTkuMDc5IDEwMDguNDEgNzE1LjQzQzk5NC45NDEgNzU1LjkyNiA5NjYuNzIxIDc5Mi4xMTEgOTI4Ljc3IDgxMS45ODdDOTIyLjgyNSA4MTQuODU0IDkxNy42NzcgODE2Ljk0OCA5MTEuNTQ1IDgxOS4zOTFDOTE5LjYwMiA4MDkuNTg1IDkyOS4wMiA3OTkuMzEyIDkzNi41NjUgNzg5LjM0MkM5NTMuNDEyIDc2Ni44NjcgOTYxLjA1IDczOS4xMjEgOTY1LjE0NSA3MTEuNzM2Qzk2Ny43OTggNjkzLjk3MiA5NzAuMTk0IDY2NS4xMTUgOTkxLjM4MSA2NTkuNjM2WiIgZmlsbD0iIzE1OTU1MSIvPgo8cGF0aCBkPSJNMzUxLjg4MyA4NTEuODA4QzM3NC44MDEgODY2Ljc3NCAzNzUuOTU5IDg4Ni4yNiAzNzYuNDY1IDkxMS43NTRDMzc3LjE0MyA5NDUuOTY4IDM4MS42NyA5NzMuNjMyIDM5My4yNTcgMTAwNS42OUwzODguMzExIDEwMDIuMTJDMzcwLjU5NiA5ODUuNjY3IDM2MC44NjIgOTcwLjQ2OCAzNTIuMTEzIDk0Ny44ODhDMzQxLjM3NiA5MjAuMTgzIDMzOS4yODMgODc5LjA3NiAzNTEuODgzIDg1MS44MDhaIiBmaWxsPSIjMTU5NTUxIi8+CjxwYXRoIGQ9Ik01ODYuNjE0IDE1LjE0MTFMNTg3LjYwOSAxNS4zOTAxQzU4Ni4xNTQgMTYuODMxNCA1NzYuNTU0IDIxLjIxNjcgNTczLjY4MiAyMi44NDNDNTU4LjkyMiAzMS4yMDU3IDU0Ny44MjYgMzkuOTk1OSA1MzYuNDQzIDUyLjU1NDdDNTA1LjM4NSA4Ni44MTg1IDUwNS4zNDIgMTM2LjA2NyA0NjEuNzYzIDE2MC4wNTNDNDUyLjI1NCAxNjUuMjg3IDQ0Ny40NzYgMTY3LjA2MyA0MzcuMzY0IDE3MC45ODFMNDM2LjU1MSAxNzAuODUyQzQzNS4yMTcgMTY2LjMyNiA0NDQuOTk0IDEzNy41NDQgNDQ3LjEyIDEzMi4wMUM0NjcuNzgxIDc4LjI0NzYgNTE1LjYyIDQyLjU3MjYgNTY3LjkwMSAyMi4zNzgyQzU3NC4wNSAyMC4wMDI3IDU4MC41IDE3Ljc1ODYgNTg2LjYxNCAxNS4xNDExWiIgZmlsbD0iI0VEMzIzNyIvPgo8cGF0aCBkPSJNNjY0LjQyNSAyLjMxNzIzQzY5MS4yMzYgLTIuMjI1NjEgNzE4Ljk1NSAwLjMyOTA4IDc0NS4wNDUgNi4zNTM0M0M4MzQuNDczIDI2Ljk5OCA4OTYuNjEzIDEwOC4xNzcgODcxLjQ1MyAyMDAuODI4Qzg2NC40NjEgMjI2LjU3NSA4NTcuMTMxIDIzNy4yIDg0MC45MzYgMjU3LjkzOEM3NzcuNTA1IDMzOS4xNCA2NzAuMyAzNjEuODk0IDU4NS4wNDMgNDExLjg4NkM1NTQuNjgyIDQyOS42ODQgNTI0LjA0NiA0NTQuMzI4IDUxNi4xMjUgNDkwLjE3M0M1MTAuMDUzIDUxNy42NTEgNTA4LjI4MyA1MzkuNzc5IDUyNS4zNiA1NjIuNjI1QzUyOC4xMzYgNTY2LjMzOSA1MzAuNDA3IDU2OC44NzggNTMzLjIwNyA1NzEuNTM2QzUzMC4xMDMgNTY5LjM2MSA1MjcuMTM5IDU2Ny4zMDggNTI0LjE2IDU2NC45NThDNTE4LjU0NSA1NjAuNjc3IDUxMy4zODcgNTU2LjU0NyA1MDguMzgxIDU1MS41MjFDNDc5LjE5MSA1MjIuMjA1IDQ4My44OTQgNDc4LjA1MSA0OTYuNzY0IDQ0Mi4zMzNDNTE4LjkwNCAzODAuODg2IDU2Ni44OTEgMzMzLjM0MyA2MTguOTkzIDI5Ni4wMjRDNjI1LjE3NiAyOTEuNTk1IDYzMy40OTUgMjg1LjQ4MyA2MzguODUyIDI4MC4yMDdMNjM5LjM3IDI3OS42OUM2MzAuNzA4IDI4MC42NjQgNjIzLjE1MiAyODEuNzQ1IDYxNC43NDYgMjg0LjUxN0M1ODMuMDMxIDI5NC45NzEgNTM5Ljg5NSAzMjQuMDM5IDUxNy4wNjUgMzQ3LjgxOEM1MjAuMTQzIDM0MC44NDYgNTI3LjAwNiAzMjkuNjEzIDUzMS43MDMgMzIzLjMyOUM1NzIuNjQ5IDI2OC41NTQgNjQwLjc0OSAyMzEuMzg4IDcwNC40MDYgMjA5Ljg4MUM3MTMuMTg1IDIwNi45MTQgNzMyLjE1NSAyMDEuMjA1IDc0MC45NDQgMTk5LjgxM0M3MzUuMzYgMTgxLjk2NiA3MjQuODAyIDE2NC4xNTkgNzMzLjkyMyAxNDUuMDY1Qzc0Mi45NDUgMTI2LjE2NSA3NjQuOTI5IDExMi43ODUgNzg1Ljk3NSAxMTguODA4Qzc5OS44ODQgMTIyLjc4NyA4MDkuMDA2IDEzMi45MTYgODIxLjcyOCAxMzguODA5QzgyMi4wMDEgMTE2LjMwOCA4MjAuMzkgOTYuMTYwMyA4MDkuNjg2IDc1LjgxMzVDNzgxLjY0NyAyMi40ODQzIDcxOS43MTIgNi4wNTM4NyA2NjQuNDI1IDIuMzE3MjNaIiBmaWxsPSIjRUQzMjM3Ii8+CjxwYXRoIGQ9Ik05NDMuOTI0IDI0MC4zMTRDOTc4Ljc3MyAyNDYuMTkgMTAwMS4xNCAyNTguNDc3IDEwMjUuNDMgMjc5LjYzN0MxMDU2LjU1IDMwNi43NSAxMDczLjI3IDM0MS42NzUgMTA3OC4wNyAzODIuNTdDMTA3OC4yNSAzODQuMTU0IDEwNzkuOSA0MDEuNTE5IDEwODAgNDAxLjc0N1Y0MjAuOTIzQzEwNzguNyA0MjUuOTEyIDEwNzguMTIgNDM3LjI2NiAxMDc2Ljc3IDQ0My41NjJDMTA3MS4yOSA0NjkuMDQ4IDEwNjEuNyA0ODguNTk2IDEwNDcuMDggNTA5Ljg2N0MxMDQwLjQ1IDUxOS41MjMgMTAyNy4zIDUzMy41NTkgMTAyMi41NCA1NDIuMTMyTDEwMjIuMTQgNTQyLjg2QzEwMjguMTYgNTUzLjYzOCAxMDM3LjEzIDU2MC43NTcgMTA0Mi45NSA1NzMuMDcxQzEwNTQuNTYgNTk3LjY1OSAxMDM4Ljk1IDYxOC42NzQgMTAxNS40OSA2MjguMTE1Qzk0NC43OTcgNjU2LjU3IDg3MC45MDEgNjE1LjY5NiA4MTAuODQ0IDU4MS40MzZDNzU5LjU1NCA1NTIuMTcyIDcxNi4zNzMgNTE0LjUwOSA2NjIuMzEzIDQ5MS42NTVDNjI0LjE5MyA0NzUuNzY0IDU4OC40NDYgNDc5LjA1NiA1NTEuNTM4IDQ5NS40NjVDNTYxLjQ5NCA0ODMuMDU4IDU3My44MjcgNDY5Ljg5OSA1ODcuNzEzIDQ2MS44MjhDNjY1LjA4MiA0MTYuODUzIDc1MS42NTQgNDc1LjI3IDgyOC4zMDcgNDkzLjM5NEM4NzkuMzAxIDUwNS42OTEgOTM3LjAxOSA1MDEuMzY5IDk4Mi43ODMgNDc0LjQ5QzEwNDAuOTEgNDQwLjM1IDEwNTguNzMgMzU3Ljk1OCAxMDIzLjQ3IDMwMS42NTVDMTAwNi4zOSAyNzQuMzgxIDk3My4xMDkgMjQ5LjY1NSA5NDEuMjYgMjQyLjMwOUM5MzYuMDY1IDI0MC43OTEgOTE0LjEyOCAyMzguMDc5IDkxNC4xMjggMjM4LjA3OUM5MTQuMTI4IDIzOC4wNzkgOTMyLjQxOCAyMzguMzc0IDk0My45MjQgMjQwLjMxNFoiIGZpbGw9IiMwNTdGQjkiLz4KPC9zdmc+Cg=="><span><b>Harmoni Inklusi</b><small>2026</small></span></div></header>
+<main>
+  <p class="eb">Untuk peserta</p>
+  <h1>Cek status pengumpulan karyamu</h1>
+  <p class="sub">Masukkan email akun Google Classroom yang kamu pakai untuk mengumpulkan. Kamu hanya akan melihat status milikmu sendiri.</p>
+  <div class="card">
+    <label for="em">Email Classroom</label>
+    <div class="row"><input type="email" id="em" autocomplete="email" inputmode="email" placeholder="namakamu@gmail.com"><button class="btn" id="go" type="button">Cek status</button></div>
+    <p class="hint">Email tidak disimpan. Gunakan email yang sama dengan yang dipakai saat bergabung di Classroom.</p>
+    <div id="hasil" aria-live="polite"></div>
+  </div>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+function el(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  if (attrs) for (const k in attrs) { const v = attrs[k]; if (v === null || v === undefined || v === false) continue; if (k === 'class') e.className = v; else e.setAttribute(k, v === true ? '' : v); }
+  kids.flat().forEach((c) => { if (c === null || c === undefined || c === false) return; e.append(c.nodeType ? c : document.createTextNode(String(c))); });
+  return e;
+}
+/* Alamat web app Apps Script (.../exec). Isi di sini kalau halaman ini di-hosting statis (Netlify, Cloudflare, dll). */
+const API_URL = 'https://script.google.com/macros/s/AKfycbwBes3FfY8jaVyFlvn0nC5fMPE69RDFRbPdDVD9O_SmmqTY6q03ThmTk2ueRYD71z37HQ/exec';
+const BASE = API_URL || new URLSearchParams(location.search).get('api') || '';
+function api(fn, ...args) {
+  if (window.google && google.script && google.script.run) {
+    return new Promise((ok, no) => google.script.run.withSuccessHandler(ok)
+      .withFailureHandler((e) => no(new Error(e && e.message ? e.message : String(e))))[fn](...args));
+  }
+  if (!BASE) return Promise.reject(new Error('Halaman belum tersambung ke server. Hubungi panitia.'));
+  return fetch(BASE, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: fn, args: args }) })
+    .then((r) => r.json())
+    .then((j) => { if (!j.ok) throw new Error(j.message || 'Gagal'); return j.r; });
+}
+function waktuId(iso) {
+  try { return new Date(iso).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' WIB'; } catch (e) { return ''; }
+}
+const JUDUL = {
+  lengkap: 'Lengkap. Submitanmu sudah kami terima.',
+  kurang: 'Sudah turn-in, tetapi belum lengkap.',
+  belum: 'Belum turn-in. Karyamu belum kami terima.'
+};
+function kartu(h, d) {
+  const box = el('div', { class: 'card' });
+  box.append(el('div', { class: 'ban ' + h.verdict, role: 'status' }, el('b', null, JUDUL[h.verdict])));
+  box.append(el('p', { class: 'tim' }, 'Tim: ', el('b', null, h.tim || '-'), h.waktu ? '  ·  Turn-in/update terakhir: ' + h.waktu : ''));
+  const item = (nama, ada) => el('li', { class: ada ? 'ok' : 'no' }, el('span', { class: 'i', 'aria-hidden': 'true' }, ada ? '✓' : '✗'), nama, el('span', { class: 's' }, ada ? 'Diterima' : 'Belum ada'));
+  box.append(el('ul', { class: 'cl' }, item('Poster', h.poster), item('Deskripsi', h.deskripsi), item('Surat', h.surat)));
+  if (h.verdict !== 'lengkap') {
+    const langkah = h.verdict === 'belum'
+      ? ['Buka tugas di Google Classroom.', 'Pastikan semua berkas (poster, deskripsi, surat) sudah terlampir.', 'Tekan tombol Turn-in / Kumpulkan sampai statusnya berubah.']
+      : ['Buka tugas di Google Classroom lalu pilih Batalkan pengiriman (Unsubmit).', 'Lampirkan berkas yang kurang: ' + h.kurang.join(', ') + '.', 'Tekan Turn-in / Kumpulkan lagi' + (d.batas ? ' sebelum ' + d.batas : '') + '.'];
+    box.append(el('div', { class: 'bantu', style: 'margin-top:14px' }, el('b', null, 'Yang perlu kamu lakukan:'), el('ol', null, langkah.map((l) => el('li', null, l)))));
+  }
+  return box;
+}
+function tampil(d) {
+  const out = $('#hasil'); out.innerHTML = '';
+  if (!d.ok) { out.append(el('div', { class: 'ban belum', role: 'alert' }, d.pesan || 'Terjadi masalah.')); return; }
+  if (!d.ditemukan) {
+    out.append(el('div', { class: 'ban info', role: 'status' }, el('b', null, 'Email tidak ditemukan.'),
+      el('div', null, 'Kemungkinan: email berbeda dari yang dipakai di Classroom, kamu belum bergabung di Classroom, atau datamu belum diperbarui panitia. Coba email lain atau hubungi panitia.' + (d.kontak ? ' ' + d.kontak : ''))));
+    return;
+  }
+  out.append(...d.hasil.map((h) => kartu(h, d)));
+  const wkt = d.diperbarui ? waktuId(d.diperbarui) : '';
+  out.append(el('p', { class: 'ft' }, 'Data diperbarui panitia secara berkala' + (wkt ? ' (terakhir: ' + wkt + ')' : '') + ', jadi pengiriman yang baru beberapa menit lalu mungkin belum terlihat. Cek lagi nanti sebelum menghubungi panitia.' + (d.kontak ? ' ' + d.kontak : '')));
+}
+function cek() {
+  const email = $('#em').value.trim();
+  if (!email) { $('#em').focus(); return; }
+  $('#go').disabled = true; $('#go').textContent = 'Mengecek…'; $('#hasil').innerHTML = '';
+  api('api_cek_status', email).then(tampil)
+    .catch((e) => tampil({ ok: false, pesan: e.message || 'Gagal. Coba lagi.' }))
+    .finally(() => { $('#go').disabled = false; $('#go').textContent = 'Cek status'; });
+}
+$('#go').onclick = cek;
+$('#em').onkeydown = (e) => { if (e.key === 'Enter') cek(); };
+</script>
+</body>
+</html>
